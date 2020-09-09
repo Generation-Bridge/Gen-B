@@ -5,7 +5,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 const StartingPage = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Are you in need of an assistance?</Text>
+      <Text style={styles.text}>Are you over 65 years old?</Text>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Yes</Text>
       </TouchableOpacity>
@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
 
   text: {
     fontSize: 20,
+    paddingBottom: 15,
   },
 
   button: {
@@ -35,6 +36,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 5,
     borderColor: 'black',
+    marginBottom: 10,
+    paddingHorizontal: 20,
   },
 
   buttonText: {
