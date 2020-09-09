@@ -1,5 +1,3 @@
-import {resolve} from 'path';
-
 const {
   GraphQLSchema,
   GraphQLObjectType,
