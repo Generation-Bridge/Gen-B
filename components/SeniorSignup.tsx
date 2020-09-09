@@ -29,7 +29,7 @@ const SeniorSignup = () => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text>Sign Up</Text>
+        <Text style={styles.Text}>Sign Up</Text>
         <Text style={styles.labels}>First Name</Text>
         <TextInput
           style={styles.inputFields}
@@ -111,5 +111,10 @@ const styles = StyleSheet.create({
 
   buttonText: {
     fontSize: 20,
+  },
+
+  Text: {
+    fontSize: 40,
+    marginVertical: 20,
   },
 });
