@@ -1,19 +1,11 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 
-const SeniorSignup = ({navigation}) => {
-  // inital state for the forms
+const JuniorSignup = ({navigation}) => {
   const initialState = {
     firstName: '',
     lastName: '',
+    email: '',
     phoneNumber: '',
     zipCode: '',
     password: '',
@@ -21,15 +13,9 @@ const SeniorSignup = ({navigation}) => {
 
   // state for the forms
   const [form, setForm] = useState(initialState);
-  // console.log('state change', form);
-
-  // handle submit when submit button is clicked
-  const handleSubmit = () => {};
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text>Sign Up</Text>
         <Text style={styles.labels}>First Name</Text>
         <TextInput
           style={styles.inputFields}
@@ -43,6 +29,13 @@ const SeniorSignup = ({navigation}) => {
           placeholder="Last Name"
           onChangeText={text => setForm({...form, lastName: text})}
           value={form.lastName}
+        />
+        <Text style={styles.labels}>Email</Text>
+        <TextInput
+          style={styles.inputFields}
+          placeholder="name@email.com"
+          onChangeText={text => setForm({...form, email: text})}
+          value={form.email}
         />
         <Text style={styles.labels}>Phone Number</Text>
         <TextInput
@@ -68,6 +61,7 @@ const SeniorSignup = ({navigation}) => {
           onChangeText={text => setForm({...form, password: text})}
           value={form.password}
         />
+
         <TouchableOpacity 
           style={styles.button}
           onPress={() => navigation.navigate('SeniorDash')}>
@@ -75,10 +69,10 @@ const SeniorSignup = ({navigation}) => {
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
-  );
-};
+  )
+}
 
-export default SeniorSignup;
+export default JuniorSignup
 
 const styles = StyleSheet.create({
   container: {
