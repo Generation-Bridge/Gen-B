@@ -1,38 +1,18 @@
-import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {NavigationContainer, StackActions} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
+import Splash from './components/Splash';
+import StartingPage from './components/StartingPage';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => console.log('smart')}>
-        <Text style={styles.buttonText}>Get Started</Text>
-      </TouchableOpacity>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Splash" component={Splash} />
+        <Stack.Screen name="StartingPage" component={StartingPage} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  button: {
-    borderStyle: 'solid',
-    padding: 10,
-    backgroundColor: 'lightblue',
-    borderRadius: 10,
-    borderWidth: 5,
-    borderColor: 'black',
-  },
-
-  buttonText: {
-    fontSize: 30,
-  },
-});
+const Stack = createStackNavigator();
