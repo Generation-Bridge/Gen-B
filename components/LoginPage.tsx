@@ -24,6 +24,8 @@ const LoginPage: React.FC = () => {
   // state for login form
   const [loginForm, setLoginForm] = useState<loginState>(initialState);
 
+  // handle submit for button
+  const handleSubmit = (): void => {};
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
