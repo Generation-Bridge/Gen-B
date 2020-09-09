@@ -11,62 +11,6 @@ const {
 const {TaskType, HelperType, SeniorType} = require('./types');
 const model = require('./model');
 
-// //Sample data - to be deleted
-// const helpersData = [
-//   {
-//     id: 1,
-//     name: 'Hien',
-//     phone: '123456789',
-//     email: 'hien@hien.com',
-//     password: 'hienhien',
-//     // photo: null
-//   },
-//   {
-//     id: 2,
-//     name: 'Justin',
-//     phone: '123456788',
-//     email: 'justin@justin.com',
-//     password: 'justinjustin',
-//     // photo: null
-//   },
-// ];
-
-// const seniorsData = [
-//   {
-//     id: 1,
-//     name: 'Old Hien',
-//     phone: '123456789',
-//     email: 'oldhien@hien.com',
-//     password: 'required',
-//     ZIPCode: 90025,
-//   },
-//   {
-//     id: 2,
-//     name: 'Old Justin',
-//     phone: '123456781',
-//     password: 'required',
-//   },
-// ];
-
-// const taskData = [
-//   {
-//     id: 1,
-//     seniorID: 1,
-//     helperIDs: [1, 2],
-//     taskType: 'conversation',
-//     taskDescription: 'Very lonely. Need someone to talk to!',
-//     location: 'Phone call',
-//   },
-//   {
-//     id: 2,
-//     seniorID: 2,
-//     helperIDs: [1, 2],
-//     taskType: 'errand',
-//     taskDescription: 'Need to buy rum',
-//     location: "Old Justin's house",
-//   },
-// ];
-
 const RootQueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'Root Query',
@@ -79,7 +23,10 @@ const RootQueryType = new GraphQLObjectType({
       },
       resolve: (parent: any, {id}: any) => {
         const queryText = `SELECT * FROM helpers WHERE id=$1`;
-        return model.query(queryText, id).catch((err: any) => console.log(err));
+        return model
+          .query(queryText, [id])
+          .then((data: any) => data.rows[0])
+          .catch((err: any) => console.log(err));
       },
     },
     helpers: {
@@ -91,46 +38,127 @@ const RootQueryType = new GraphQLObjectType({
           .then((data: any) => data.rows)
           .catch((err: any) => console.log(err)),
     },
-    // seniors: {
-    //   type: new GraphQLList(SeniorType),
-    //   description: 'List of senior users',
-    //   resolve: () => seniorsData,
-    // },
+    senior: {
+      type: SeniorType,
+      description: 'Returns senior data based on ID',
+      args: {
+        id: {type: GraphQLInt},
+      },
+      resolve: (parent: any, {id}: any) =>
+        model
+          .query(`SELECT * FROM seniors WHERE id=$1`, [id])
+          .then((data: any) => data.rows[0])
+          .catch((err: any) => console.log(err)),
+    },
+    seniors: {
+      type: GraphQLList(SeniorType),
+      description: 'List of senior users',
+      resolve: () =>
+        model
+          .query(`SELECT * FROM seniors`)
+          .then((data: any) => data.rows)
+          .catch((err: any) => console.log(err)),
+    },
+    tasks: {
+      type: GraphQLList(TaskType),
+      description: 'List of all tasks',
+      resolve: () =>
+        model
+          .query(
+            `SELECT id, type, senior as seniorid, deadline, completed FROM tasks`,
+          )
+          .then((data: any) => data.rows)
+          .catch((err: any) => console.log(err)),
+    },
   }),
 });
 
-// const RootMutationType = new GraphQLObjectType({
-//   name: 'Mutation',
-//   description: 'Root Mutation',
-//   fields: () => ({
-//     addHelper: {
-//       type: HelperType,
-//       description: 'Add a helper',
-//       args: {
-//         name: {type: GraphQLNonNull(GraphQLString)},
-//         phone: {type: GraphQLNonNull(GraphQLInt)},
-//         email: {type: GraphQLNonNull(GraphQLString)},
-//         password: {type: GraphQLNonNull(GraphQLString)},
-//       },
-//       resolve: (parent: any, args: any) => {
-//         const {name, phone, email, password} = args;
-//         const newHelper = {
-//           name,
-//           phone,
-//           email,
-//           password,
-//           id: helpersData.length + 1,
-//         };
-//         helpersData.push(newHelper);
-//         return newHelper;
-//       },
-//     },
-//   }),
-// });
+const RootMutationType = new GraphQLObjectType({
+  name: 'Mutation',
+  description: 'Root Mutation',
+  fields: () => ({
+    addHelper: {
+      type: HelperType,
+      description: 'Add a helper',
+      args: {
+        name: {type: GraphQLNonNull(GraphQLString)},
+        phone: {type: GraphQLNonNull(GraphQLString)},
+        email: {type: GraphQLNonNull(GraphQLString)},
+        password: {type: GraphQLNonNull(GraphQLString)},
+        occupation: {type: GraphQLString},
+      },
+      resolve: (parent: any, args: any) => {
+        const {name, phone, email, password, occupation} = args;
+        const queryText = `INSERT INTO helpers (name, phone, email, password, occupation)
+        VALUES ($1, $2, $3, $4, $5)`;
+        model
+          .query(queryText, [name, phone, email, password, occupation])
+          .then((data: any) => console.log(data))
+          .catch((err: any) => console.log(err));
+      },
+    },
+    addSenior: {
+      type: SeniorType,
+      description: 'Add a senior',
+      args: {
+        name: {type: GraphQLNonNull(GraphQLString)},
+        phone: {type: GraphQLNonNull(GraphQLString)},
+        password: {type: GraphQLNonNull(GraphQLString)},
+        zipcode: {type: GraphQLNonNull(GraphQLInt)},
+        email: {type: GraphQLString},
+      },
+      resolve: (parent: any, args: any) => {
+        const {name, phone, email, password, zipcode} = args;
+        const queryText = `INSERT INTO seniors (name, phone, password, zipcode, email)
+        VALUES ($1, $2, $3, $4, $5)`;
+        model
+          .query(queryText, [name, phone, password, zipcode, email])
+          .then((data: any) => console.log(data))
+          .catch((err: any) => console.log(err));
+      },
+    },
+    addTask: {
+      type: SeniorType,
+      description: 'Add a task',
+      args: {
+        senior: {type: GraphQLNonNull(GraphQLInt)},
+        typeid: {type: GraphQLInt},
+        description: {type: GraphQLString},
+        deadline: {type: GraphQLNonNull(GraphQLString)},
+      },
+      resolve: (parent: any, args: any) => {
+        const {senior, typeid, description, deadline} = args;
+        const queryText = `INSERT INTO tasks (senior, type, description, deadline)
+        VALUES ($1, $2, $3, $4)`;
+        model
+          .query(queryText, [senior, typeid, description, deadline])
+          .then((data: any) => console.log(data))
+          .catch((err: any) => console.log(err));
+      },
+    },
+    addHelperToTask: {
+      type: TaskType,
+      description: 'Add Helper to a Task',
+      args: {
+        helperid: {type: GraphQLNonNull(GraphQLInt)},
+        taskid: {type: GraphQLNonNull(GraphQLInt)},
+      },
+      resolve: (parent: any, args: any) => {
+        const {helperid, taskid} = args;
+        const queryText = `INSERT INTO helpertask (helperid, taskid)
+        VALUES ($1, $2)`;
+        model
+          .query(queryText, [helperid, taskid])
+          .then((data: any) => console.log(data))
+          .catch((err: any) => console.log(err));
+      },
+    },
+  }),
+});
 
 const schema = new GraphQLSchema({
   query: RootQueryType,
-  // mutation: RootMutationType,
+  mutation: RootMutationType,
 });
 
 module.exports = {schema};
