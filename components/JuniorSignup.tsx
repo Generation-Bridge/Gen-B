@@ -64,7 +64,7 @@ const JuniorSignup = ({navigation}) => {
 
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => navigation.navigate('SeniorDash')}>
+          onPress={() => navigation.navigate('JuniorDash')}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>

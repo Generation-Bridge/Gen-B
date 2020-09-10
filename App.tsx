@@ -8,6 +8,8 @@ import StartingPage from './components/StartingPage';
 import SeniorSignup from './components/SeniorSignup';
 import SeniorDash from './components/SeniorDash';
 import JuniorSignup from './components/JuniorSignup';
+import JuniorDash from './components/JuniorDash';
+
 
 
 const client = new ApolloClient({
@@ -26,6 +28,7 @@ export default function App() {
           <Stack.Screen name="SeniorSignup" component={SeniorSignup} />
           <Stack.Screen name="SeniorDash" component={SeniorDash} />
           <Stack.Screen name="JuniorSignup" component={JuniorSignup} />
+          <Stack.Screen name="JuniorDash" component={JuniorDash} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
