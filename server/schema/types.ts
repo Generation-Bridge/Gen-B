@@ -28,10 +28,10 @@ const TaskType = new GraphQLObjectType({
     helperIDs: {
       type: GraphQLList(GraphQLInt),
       resolve: (task: any) => {
-        const queryText = 'SELECT helperid FROM tasktypes WHERE taskid=$1';
+        const queryText = 'SELECT helperid FROM helpertask WHERE taskid=$1';
         return model
-          .query(queryText, [task.taskit])
-          .then((data: any) => data.rows)
+          .query(queryText, [task.id])
+          .then((data: any) => data.rows.map(({helperid}: any) => helperid))
           .catch((err: any) => console.log(err));
       },
     },
