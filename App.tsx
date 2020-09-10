@@ -22,6 +22,7 @@ const client = new ApolloClient({
 const Stack = createStackNavigator();
 
 export default function App() {
+  console.log('random');
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
