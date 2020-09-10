@@ -16,6 +16,8 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+
+
 const Stack = createStackNavigator();
 
 export default function App() {

@@ -4,9 +4,12 @@ const app = express();
 const graphqlHTTP = require('express-graphql').graphqlHTTP;
 const {schema} = require('./schema/schema');
 const loginRouter = require('./routes/loginRouter');
+// import {createHttpLink} from 'apollo-link-http';
+const cors = require('cors');
 
 const PORT = process.env.port || 3000;
 
+app.use(cors());
 app.use(express.json());
 app.use('/graphql', graphqlHTTP({graphiql: true, schema}));
 app.use('/login', loginRouter);

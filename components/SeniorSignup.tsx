@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useQuery, gql} from '@apollo/client';
+import {useQuery, gql, useMutation} from '@apollo/client';
 import {
   StyleSheet,
   Text,
@@ -18,18 +18,31 @@ interface signUpState {
   password: string;
 }
 
-const GET_HELPERS = gql`
-  query helpers {
-    id
+const ADD_SENIOR = gql`
+  mutation addHelper(
+    $name: String!
+    $email: String!
+    $phone: String!
+    $password: String!
+    $zipCode: Int
+  ) {
+    addHelper(
+      name: $name
+      email: $email
+      phone: $phone
+      password: $password
+      zipcode: $zipCode
+    ) {
+      id
+    }
   }
 `;
 
 
 const SeniorSignup: React.FC = ({navigation}) => {
   // inital state for the forms
-  const {loading, error, data} = useQuery<any>(GET_HELPERS);
+  const [addSenior, {data, error}] = useMutation(ADD_SENIOR);
 
-  console.log(data);
 
   const initialState: signUpState = {
     firstName: '',
@@ -47,8 +60,25 @@ const SeniorSignup: React.FC = ({navigation}) => {
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
-  const handleSubmit = (): void => {
-    console.log(data);
+  const handleSubmit = async () => {
+    const {firstName, lastName, phoneNumber, password, zipCode} = form;
+    const numberedZip = Number(zipCode);
+    // TODO : need some sort of validation for the forms before we send to DB
+    try {
+      const {data} = await addSenior({
+        variables: {
+          firstName,
+          lastName,
+          phone: phoneNumber,
+          password,
+          zipCode: numberedZip,
+        },
+      });
+      setForm(initialState);
+      navigation.navigate('JuniorDash');
+    } catch (error) {
+      console.log('error', error);
+    }
   };
 
   return (
