@@ -87,9 +87,9 @@ const RootMutationType = new GraphQLObjectType({
         password: {type: GraphQLNonNull(GraphQLString)},
         occupation: {type: GraphQLString},
       },
-      resolve: (parent: any, args: any) => {
+      resolve: async (parent: any, args: any) => {
         const {name, phone, email, password, occupation} = args;
-        const hashedPass = bcrypt.hash(password, 10)
+        const hashedPass = await bcrypt.hash(password, 10)
         const queryText = `INSERT INTO helpers (name, phone, email, password, occupation)
         VALUES ($1, $2, $3, $4, $5)`;
         model
