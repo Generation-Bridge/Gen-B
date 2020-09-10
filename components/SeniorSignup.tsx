@@ -32,7 +32,9 @@ const SeniorSignup: React.FC = ({navigation}) => {
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
-  const handleSubmit = (): void => {};
+  const handleSubmit = (): void => {
+    
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
