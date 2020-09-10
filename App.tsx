@@ -10,11 +10,17 @@ import SeniorDash from './components/SeniorDash';
 import JuniorSignup from './components/JuniorSignup';
 import JuniorDash from './components/JuniorDash';
 import LoginPage from './components/LoginPage';
+import NewTicket from './components/NewTicket';
+import NewTicketDesc from './components/NewTicketDesc';
+
+
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
   cache: new InMemoryCache(),
 });
+
+
 
 const Stack = createStackNavigator();
 // export const AuthContext = createContext({});
@@ -46,6 +52,8 @@ export default function App() {
             )}
           </Stack.Screen>
           <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="NewTicket" component={NewTicket} />
+          <Stack.Screen name="NewTicketDesc" component={NewTicketDesc} />
         </Stack.Navigator>
         {/* </AuthContext.Provider> */}
       </NavigationContainer>
