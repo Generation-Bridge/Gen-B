@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useQuery, gql} from '@apollo/client';
 import {
   StyleSheet,
   Text,
@@ -17,8 +18,19 @@ interface signUpState {
   password: string;
 }
 
+const GET_HELPERS = gql`
+  query helpers {
+    id
+  }
+`;
+
+
 const SeniorSignup: React.FC = ({navigation}) => {
   // inital state for the forms
+  const {loading, error, data} = useQuery<any>(GET_HELPERS);
+
+  console.log(data);
+
   const initialState: signUpState = {
     firstName: '',
     lastName: '',
@@ -27,13 +39,16 @@ const SeniorSignup: React.FC = ({navigation}) => {
     password: '',
   };
 
+  // if (loading) return 'Loading...';
+  // if (error) return `Error! ${error.message}`;
+
   // state for the forms
   const [form, setForm] = useState<signUpState>(initialState);
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
   const handleSubmit = (): void => {
-    
+    console.log(data);
   };
 
   return (
