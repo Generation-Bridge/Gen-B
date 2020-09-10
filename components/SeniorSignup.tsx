@@ -75,7 +75,7 @@ const SeniorSignup: React.FC = ({navigation}) => {
         },
       });
       setForm(initialState);
-      navigation.navigate('JuniorDash');
+      navigation.navigate('SeniorDash');
     } catch (error) {
       console.log('error', error);
     }
@@ -125,7 +125,7 @@ const SeniorSignup: React.FC = ({navigation}) => {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SeniorDash')}>
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
