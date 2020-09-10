@@ -15,7 +15,7 @@ interface signupState {
   email: string;
   phoneNumber: string;
   password: string;
-  zipCode: string;
+  zipCode: any;
 }
 // TODO: change occupation to zip code when Andy modifies DB
 const ADD_HELPER = gql`
@@ -24,14 +24,14 @@ const ADD_HELPER = gql`
     $email: String!
     $phone: String!
     $password: String!
-    $occupation: String
+    $zipCode: Int
   ) {
     addHelper(
       name: $name
       email: $email
       phone: $phone
       password: $password
-      occupation: $occupation
+      zipcode: $zipCode
     ) {
       id
     }
@@ -55,7 +55,7 @@ const JuniorSignup = ({navigation}) => {
 
   const handleSubmit = async () => {
     const {name, email, phoneNumber, password, zipCode} = form;
-
+    const numberedZip = Number(zipCode);
     // TODO : need some sort of validation for the forms before we send to DB
     try {
       const {data} = await addHelper({
@@ -64,7 +64,7 @@ const JuniorSignup = ({navigation}) => {
           email,
           phone: phoneNumber,
           password,
-          occupation: zipCode,
+          zipCode: numberedZip,
         },
       });
       setForm(initialState);

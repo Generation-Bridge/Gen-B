@@ -25,13 +25,17 @@ const TaskType = new GraphQLObjectType({
           .catch((err: any) => console.log(err));
       },
     },
-    helperIDs: {
-      type: GraphQLList(GraphQLInt),
+    helpers: {
+      type: GraphQLList(GraphQLString),
       resolve: (task: any) => {
-        const queryText = 'SELECT helperid FROM tasktypes WHERE taskid=$1';
+        const queryText = `SELECT name 
+        FROM helpertask 
+        JOIN helpers
+        ON helpertask.helperid = helpers.id
+        WHERE taskid=$1`;
         return model
-          .query(queryText, [task.taskit])
-          .then((data: any) => data.rows)
+          .query(queryText, [task.id])
+          .then((data: any) => data.rows.map(({name}: any) => name))
           .catch((err: any) => console.log(err));
       },
     },
@@ -61,7 +65,7 @@ const HelperType = new GraphQLObjectType({
     phone: {type: GraphQLNonNull(GraphQLString)},
     email: {type: GraphQLNonNull(GraphQLString)},
     password: {type: GraphQLNonNull(GraphQLString)},
-    occupation: {type: GraphQLString},
+    zipcode: {type: GraphQLInt},
     tasks: {
       type: GraphQLList(TaskType),
       resolve: (helper: any) => {
@@ -72,7 +76,6 @@ const HelperType = new GraphQLObjectType({
         return model
           .query(queryText, [helper.id])
           .then((data: any) => {
-            console.log(data.rows);
             return data.rows;
           })
           .catch((err: any) => console.log(err));
