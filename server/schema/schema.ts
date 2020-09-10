@@ -64,7 +64,7 @@ const RootQueryType = new GraphQLObjectType({
       resolve: () =>
         model
           .query(
-            `SELECT id, type, senior as seniorid, deadline, completed FROM tasks`,
+            `SELECT id, type as typeid, senior as seniorid, deadline, completed FROM tasks`,
           )
           .then((data: any) => data.rows)
           .catch((err: any) => console.log(err)),

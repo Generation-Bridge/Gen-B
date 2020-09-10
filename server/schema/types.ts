@@ -42,7 +42,7 @@ const TaskType = new GraphQLObjectType({
         const queryText = 'SELECT type FROM tasktypes WHERE id=$1';
         return model
           .query(queryText, [task.typeid])
-          .then((data: any) => data.rows[0])
+          .then((data: any) => data.rows[0].type)
           .catch((err: any) => console.log(err));
       },
     },
@@ -65,7 +65,7 @@ const HelperType = new GraphQLObjectType({
     tasks: {
       type: GraphQLList(TaskType),
       resolve: (helper: any) => {
-        const queryText = `SELECT helpertask.taskid as id, tasks.id as typeid, tasks.description, seniors.id as seniorid, seniors.name as seniorName, deadline, completed FROM helpertask
+        const queryText = `SELECT helpertask.taskid as id, tasks.type as typeid, tasks.description, seniors.id as seniorid, seniors.name as seniorName, deadline, completed FROM helpertask
         JOIN tasks ON helpertask.taskid = tasks.id
         JOIN seniors ON seniors.id= tasks.senior
         WHERE helperid=$1`;
@@ -94,7 +94,7 @@ const SeniorType = new GraphQLObjectType({
     tasks: {
       type: GraphQLList(TaskType),
       resolve: (senior: any) => {
-        const queryText = `SELECT helpertask.taskid as id, tasks.id as typeid, tasks.description, seniors.id as seniorid, seniors.name as seniorName, deadline, completed FROM helpertask
+        const queryText = `SELECT helpertask.taskid as id, tasks.type as typeid, tasks.description, seniors.id as seniorid, seniors.name as seniorName, deadline, completed FROM helpertask
         JOIN tasks ON helpertask.taskid = tasks.id
         JOIN seniors ON seniors.id = tasks.senior
         WHERE seniors.id=$1`;
