@@ -33,7 +33,7 @@ const NewTicketDesc = ({navigation, route}) => {
           description: value
         },
       });
-      navigation.navigate('SeniorDash');
+      navigation.navigate('SeniorDash', {fetch: true});
     } catch (e) {
       console.log('error in addTask', e)
     }
