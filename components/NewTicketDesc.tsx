@@ -1,7 +1,21 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { gql, useMutation } from '@apollo/client'
+
+
 
 const NewTicketDesc = ({navigation, route}) => {
+  const ADD_TASK = gql`
+    mutation addTask(senior: Int!,description: String, deadline: String!) {
+      addTask(senior: $id, description: $description, deadline: $deadline) {
+        id
+      }
+    }
+  `
+  const [addTask, { data }] = useMutation(ADD_TASK);
+  
+  const handleSubmit = () => {
+  }
   console.log('params', route.params)
   const [value, onChangeText] = React.useState('');
   return (
