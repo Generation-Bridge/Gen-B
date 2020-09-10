@@ -10,6 +10,10 @@ import SeniorDash from './components/SeniorDash';
 import JuniorSignup from './components/JuniorSignup';
 import JuniorDash from './components/JuniorDash';
 import LoginPage from './components/LoginPage';
+import NewTicket from './components/NewTicket';
+import NewTicketDesc from './components/NewTicketDesc';
+
+
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -30,6 +34,8 @@ export default function App() {
           <Stack.Screen name="JuniorSignup" component={JuniorSignup} />
           <Stack.Screen name="JuniorDash" component={JuniorDash} />
           <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="NewTicket" component={NewTicket} />
+          <Stack.Screen name="NewTicketDesc" component={NewTicketDesc} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
