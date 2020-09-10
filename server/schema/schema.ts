@@ -9,6 +9,7 @@ const {
 } = require('graphql');
 const {TaskType, HelperType, SeniorType} = require('./types');
 const model = require('./model');
+const bcrypt = require('bcrypt');
 
 const RootQueryType = new GraphQLObjectType({
   name: 'Query',
@@ -64,7 +65,7 @@ const RootQueryType = new GraphQLObjectType({
       resolve: () =>
         model
           .query(
-            `SELECT id, type as typeid, senior as seniorid, deadline, completed FROM tasks`,
+            `SELECT id, type as typeid, senior as seniorid, description, deadline, completed FROM tasks`,
           )
           .then((data: any) => data.rows)
           .catch((err: any) => console.log(err)),
@@ -88,10 +89,11 @@ const RootMutationType = new GraphQLObjectType({
       },
       resolve: (parent: any, args: any) => {
         const {name, phone, email, password, occupation} = args;
+        const hashedPass = bcrypt.hash(password, 10)
         const queryText = `INSERT INTO helpers (name, phone, email, password, occupation)
         VALUES ($1, $2, $3, $4, $5)`;
         model
-          .query(queryText, [name, phone, email, password, occupation])
+          .query(queryText, [name, phone, email, hashedPass, occupation])
           .then((data: any) => console.log(data))
           .catch((err: any) => console.log(err));
       },
@@ -131,7 +133,7 @@ const RootMutationType = new GraphQLObjectType({
         VALUES ($1, $2, $3, $4)`;
         model
           .query(queryText, [senior, typeid, description, deadline])
-          .then((data: any) => console.log(data))
+          .then((data: any) => data)
           .catch((err: any) => console.log(err));
       },
     },
