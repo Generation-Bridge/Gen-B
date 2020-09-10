@@ -85,15 +85,15 @@ const RootMutationType = new GraphQLObjectType({
         phone: {type: GraphQLNonNull(GraphQLString)},
         email: {type: GraphQLNonNull(GraphQLString)},
         password: {type: GraphQLNonNull(GraphQLString)},
-        occupation: {type: GraphQLString},
+        zipcode: {type: GraphQLInt},
       },
       resolve: async (parent: any, args: any) => {
-        const {name, phone, email, password, occupation} = args;
-        const hashedPass = await bcrypt.hash(password, 10)
-        const queryText = `INSERT INTO helpers (name, phone, email, password, occupation)
+        const {name, phone, email, password, zipcode} = args;
+        const hashedPass = await bcrypt.hash(password, 10);
+        const queryText = `INSERT INTO helpers (name, phone, email, password, zipcode)
         VALUES ($1, $2, $3, $4, $5)`;
         model
-          .query(queryText, [name, phone, email, hashedPass, occupation])
+          .query(queryText, [name, phone, email, hashedPass, zipcode])
           .then((data: any) => console.log(data))
           .catch((err: any) => console.log(err));
       },
@@ -108,12 +108,13 @@ const RootMutationType = new GraphQLObjectType({
         zipcode: {type: GraphQLNonNull(GraphQLInt)},
         email: {type: GraphQLString},
       },
-      resolve: (parent: any, args: any) => {
+      resolve: async (parent: any, args: any) => {
         const {name, phone, email, password, zipcode} = args;
+        const hashedPass = await bcrypt.hash(password, 10);
         const queryText = `INSERT INTO seniors (name, phone, password, zipcode, email)
         VALUES ($1, $2, $3, $4, $5)`;
         model
-          .query(queryText, [name, phone, password, zipcode, email])
+          .query(queryText, [name, phone, hashedPass, zipcode, email])
           .then((data: any) => console.log(data))
           .catch((err: any) => console.log(err));
       },
@@ -125,7 +126,7 @@ const RootMutationType = new GraphQLObjectType({
         senior: {type: GraphQLNonNull(GraphQLInt)},
         typeid: {type: GraphQLInt},
         description: {type: GraphQLString},
-        deadline: {type: GraphQLNonNull(GraphQLString)},
+        deadline: {type: GraphQLString},
       },
       resolve: (parent: any, args: any) => {
         const {senior, typeid, description, deadline} = args;
