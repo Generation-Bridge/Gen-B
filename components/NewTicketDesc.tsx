@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native'
 import { gql, useMutation } from '@apollo/client'
-import { ScrollView } from 'react-native-gesture-handler'
 
 
 const ADD_TASK = gql`
