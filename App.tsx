@@ -13,20 +13,16 @@ import LoginPage from './components/LoginPage';
 import NewTicket from './components/NewTicket';
 import NewTicketDesc from './components/NewTicketDesc';
 
-
-
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
   cache: new InMemoryCache(),
 });
 
-
-
 const Stack = createStackNavigator();
 // export const AuthContext = createContext({});
 export default function App() {
   // global state for whoever's ID
-  const [authID, setAuthID] = useState(1);
+  const [authID, setAuthID] = useState(null);
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>

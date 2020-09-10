@@ -14,8 +14,8 @@ const GET_TASKS = gql`
   }
 `;
 
-
-const JuniorFeed = () => {
+const JuniorFeed = ({authID}) => {
+  console.log('authID in JuniorFeed', authID);
   const {loading, error, data} = useQuery(GET_TASKS);
   if (loading) return <Text>Loading...</Text>;
   if (error) {
@@ -25,7 +25,9 @@ const JuniorFeed = () => {
   // console.log('data', data);
 
   // const tickets = data.helpers[0].map( task => <SeniorTicket task={task}/>)
-  const tickets = data.tasks.map(task => <Ticket task={task} key={task.id} />);
+  const tickets = data.tasks.map(task => (
+    <Ticket task={task} key={task.id} authID={authID} />
+  ));
   // console.log('tickets', tickets)
   return (
     <ScrollView style={styles.container}>

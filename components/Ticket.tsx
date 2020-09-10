@@ -1,18 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import {gql, useMutation} from '@apollo/client';
+
+const ADD_HELPER_TO_TASK = gql`
+  mutation addHelperToTask($helperid: Int!, $taskid: Int!) {
+    addHelperToTask(helperid: $helperid, taskid: $taskid) {
+      id
+    }
+  }
+`;
 
 const Ticket = props => {
+  const [claimed, setClaimed] = useState(false);
+  const [addHelperToTask, {data, error}] = useMutation(ADD_HELPER_TO_TASK);
+
   // destucturing the props
-  const {task} = props;
+  const {task, authID} = props;
   const {seniorname, type, description, id} = task;
   // handle claim submit button
-  const handleClaim = () => {};
+  const handleClaim = async () => {
+    // id is taskID and authID is userID
+    console.log('authID in Ticket', authID);
+    console.log('taskID in Ticket', id);
+
+    try {
+      const {data} = await addHelperToTask({
+        variables: {
+          helperid: authID,
+          taskid: id,
+        },
+      });
+      setClaimed(true);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Who: {seniorname}</Text>
       <Text style={styles.text}>Type: {type}</Text>
       <Text style={styles.text}>Description: {description}</Text>
-      <TouchableOpacity style={styles.button}>
+
+      <TouchableOpacity style={styles.button} onPress={handleClaim}>
         <Text style={styles.buttonText}>Claim</Text>
       </TouchableOpacity>
     </View>

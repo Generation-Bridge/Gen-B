@@ -37,13 +37,23 @@ export default function JuniorDash({authID}) {
         inactiveTintColor: 'gray',
         showLabel: false,
       }}>
-      <Tab.Screen name="Feed" component={JuniorFeed} />
-      <Tab.Screen name="JuniorTickets" component={JuniorTickets} />
+      <Tab.Screen name="Feed">
+        {props => <JuniorFeed {...props} authID={authID} />}
+      </Tab.Screen>
+      <Tab.Screen name="JuniorTickets">
+        {props => <JuniorTickets {...props} authID={authID} />}
+      </Tab.Screen>
       <Tab.Screen name="JuniorProfile" component={JuniorProfile} />
     </Tab.Navigator>
   );
 }
 
+/*<Stack.Screen name="JuniorSignup">
+{props => (
+  <JuniorSignup {...props} authID={authID} setAuthID={setAuthID} />
+)}
+</Stack.Screen>
+*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,

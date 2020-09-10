@@ -69,8 +69,9 @@ const JuniorSignup = ({navigation, authID, setAuthID}) => {
           zipCode: numberedZip,
         },
       });
-      console.log('data', data);
-      setAuthID(2);
+      console.log('data', data.addHelper.id);
+      const uID = Number(data.addHelper.id);
+      setAuthID(uID);
       setForm(initialState);
       navigation.navigate('JuniorDash');
     } catch (error) {
