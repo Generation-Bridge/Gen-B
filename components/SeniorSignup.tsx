@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useQuery, gql, useMutation} from '@apollo/client';
 import {
   StyleSheet,
   Text,
@@ -17,8 +18,32 @@ interface signUpState {
   password: string;
 }
 
+const ADD_SENIOR = gql`
+  mutation addHelper(
+    $name: String!
+    $email: String!
+    $phone: String!
+    $password: String!
+    $zipCode: Int
+  ) {
+    addHelper(
+      name: $name
+      email: $email
+      phone: $phone
+      password: $password
+      zipcode: $zipCode
+    ) {
+      id
+    }
+  }
+`;
+
+
 const SeniorSignup: React.FC = ({navigation}) => {
   // inital state for the forms
+  const [addSenior, {data, error}] = useMutation(ADD_SENIOR);
+
+
   const initialState: signUpState = {
     firstName: '',
     lastName: '',
@@ -27,12 +52,34 @@ const SeniorSignup: React.FC = ({navigation}) => {
     password: '',
   };
 
+  // if (loading) return 'Loading...';
+  // if (error) return `Error! ${error.message}`;
+
   // state for the forms
   const [form, setForm] = useState<signUpState>(initialState);
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
-  const handleSubmit = (): void => {};
+  const handleSubmit = async () => {
+    const {firstName, lastName, phoneNumber, password, zipCode} = form;
+    const numberedZip = Number(zipCode);
+    // TODO : need some sort of validation for the forms before we send to DB
+    try {
+      const {data} = await addSenior({
+        variables: {
+          firstName,
+          lastName,
+          phone: phoneNumber,
+          password,
+          zipCode: numberedZip,
+        },
+      });
+      setForm(initialState);
+      navigation.navigate('SeniorDash');
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -78,7 +125,7 @@ const SeniorSignup: React.FC = ({navigation}) => {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SeniorDash')}>
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
