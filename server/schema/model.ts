@@ -5,6 +5,9 @@ const PG_URI = process.env.elephantURI;
 
 const pool = new Pool({
   connectionString: PG_URI,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 module.exports = {
