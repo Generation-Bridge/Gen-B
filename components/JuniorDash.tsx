@@ -1,63 +1,66 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native'
-import Feed from './Feed'
-import { useQuery, gql } from '@apollo/client';
+import React from 'react';
+import {StyleSheet} from 'react-native';
+import {FontAwesome} from '@expo/vector-icons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-// const GET_TEST = gql`
-//   query helpers {
-//     tasks {
-//       taskType
-//       taskDescription
-//     }
-//   }`
+import JuniorFeed from './JuniorFeed';
+import JuniorTickets from './JuniorTickets';
+import JuniorProfile from './JuniorProfile';
 
+const Tab = createBottomTabNavigator();
 
 export default function JuniorDash() {
-  // const { loading, error, data } = useQuery(GET_TEST);
-  // if (loading) return <Text>Loading...</Text>;
-  // if (error) return <Text>Error :( </Text>;
-
-  // console.log('data', data)
   return (
-    <View style={styles.container}>
-      <Text>Dashboard</Text>
-      <Feed/>
-      <View
-        style={styles.buttonView}
-      >
-        <TouchableOpacity 
-          style={styles.tabs}
-          >
-          <Text>Open</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.tabs}
-          >
-          <Text>Closed</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  )
+    <Tab.Navigator
+      screenOptions={({route}) => ({
+        tabBarIcon: ({focused, color, size}) => {
+          let iconName;
+
+          if (route.name === 'Feed') {
+            iconName = 'feed';
+            color = focused ? 'red' : 'black';
+          } else if (route.name === 'JuniorTickets') {
+            iconName = 'ticket';
+            color = focused ? 'red' : 'black';
+          } else if (route.name === 'JuniorProfile') {
+            iconName = 'user';
+            color = focused ? 'red' : 'black';
+          }
+
+          // You can return any component that you like here!
+          return <FontAwesome name={iconName} size={size} color={color} />;
+        },
+      })}
+      tabBarOptions={{
+        activeTintColor: 'tomato',
+        inactiveTintColor: 'gray',
+        showLabel: false,
+      }}>
+      <Tab.Screen name="Feed" component={JuniorFeed} />
+      <Tab.Screen name="JuniorTickets" component={JuniorTickets} />
+      <Tab.Screen name="JuniorProfile" component={JuniorProfile} />
+    </Tab.Navigator>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
   },
   submit: {
     width: '80%',
-    backgroundColor: 'lightgreen'
+    backgroundColor: 'lightgreen',
   },
   tabs: {
     flex: 1,
     alignSelf: 'flex-end',
     width: '40%',
     backgroundColor: 'red',
-    height: 20
+    height: 20,
   },
   buttonView: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-  }
-})
+  },
+});
