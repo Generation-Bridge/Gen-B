@@ -7,21 +7,21 @@ const NewTicket = ({navigation}) => {
       <Text style={styles.choiceText}>What do you need help with?</Text>
       <TouchableOpacity 
         style={styles.choices}
-        onPress={() => navigation.navigate('NewTicketDesc', {type: 'Food'})}
-        >
-        <Text style={styles.choiceText}>Food / Groceries</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.choices}
-        onPress={() => navigation.navigate('NewTicketDesc', {type: 'Connection'})}
-        >
-        <Text style={styles.choiceText}>Connection</Text>
-      </TouchableOpacity>
-      <TouchableOpacity 
-        style={styles.choices}
-        onPress={() => navigation.navigate('NewTicketDesc', {type: 'Errands'})}
+        onPress={() => navigation.navigate('NewTicketDesc', {typeid: 100})}
         >
         <Text style={styles.choiceText}>Errands</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.choices}
+        onPress={() => navigation.navigate('NewTicketDesc', {typeid: 200})}
+        >
+        <Text style={styles.choiceText}>Conversation</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.choices}
+        onPress={() => navigation.navigate('NewTicketDesc', {typeid: 300})}
+        >
+        <Text style={styles.choiceText}>Household Chores</Text>
       </TouchableOpacity>
     </View>
   )

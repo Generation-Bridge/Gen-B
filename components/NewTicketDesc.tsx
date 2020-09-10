@@ -3,21 +3,45 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-nativ
 import { gql, useMutation } from '@apollo/client'
 
 
+const ADD_TASK = gql`
+  mutation addTask(
+    $id: Int!
+    $typeid: Int!
+    $description: String
+    $deadline: String!
+    ) {
+    addTask(
+      senior: $id
+      description: $description
+      deadline: $deadline
+      typeid: $typeid
+      ) {
+      id
+    }
+  }
+`
 
 const NewTicketDesc = ({navigation, route}) => {
-  const ADD_TASK = gql`
-    mutation addTask(senior: Int!,description: String, deadline: String!) {
-      addTask(senior: $id, description: $description, deadline: $deadline) {
-        id
-      }
-    }
-  `
-  const [addTask, { data }] = useMutation(ADD_TASK);
+  const [value, onChangeText] = React.useState('');
+  const [addTask, { data, error }] = useMutation(ADD_TASK);
   
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    try {
+      const mutation = await addTask({
+        variables: {
+          id: 25,
+          description: value,
+          deadline: new Date(),
+          typeid: route.params.typeid
+        },
+      });
+      navigation.navigate('SeniorDash');
+    } catch (e) {
+      console.log('error in addTask', e)
+    }
+
   }
   console.log('params', route.params)
-  const [value, onChangeText] = React.useState('');
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Please describe your request.</Text>
@@ -30,7 +54,7 @@ const NewTicketDesc = ({navigation, route}) => {
     />
     <TouchableOpacity 
         style={styles.submit}
-        onPress={() => navigation.navigate('NewTicket')}
+        onPress={handleSubmit}
         >
         <Text style={styles.text}>Submit</Text>
       </TouchableOpacity>
