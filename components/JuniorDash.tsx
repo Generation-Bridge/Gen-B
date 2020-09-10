@@ -9,7 +9,8 @@ import JuniorProfile from './JuniorProfile';
 
 const Tab = createBottomTabNavigator();
 
-export default function JuniorDash() {
+export default function JuniorDash({authID}) {
+  console.log('authID in dash after signing up', authID);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({

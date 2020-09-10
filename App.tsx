@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, createContext} from 'react';
 import {NavigationContainer, StackActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {ApolloClient, InMemoryCache, ApolloProvider} from '@apollo/client';
@@ -17,20 +17,37 @@ const client = new ApolloClient({
 });
 
 const Stack = createStackNavigator();
-
+// export const AuthContext = createContext({});
 export default function App() {
+  // global state for whoever's ID
+  const [authID, setAuthID] = useState(1);
   return (
     <ApolloProvider client={client}>
       <NavigationContainer>
+        {/* <AuthContext.Provider value={{authID, setAuthID}}> */}
         <Stack.Navigator>
           <Stack.Screen name="Splash" component={Splash} />
           <Stack.Screen name="StartingPage" component={StartingPage} />
-          <Stack.Screen name="SeniorSignup" component={SeniorSignup} />
+          {/* <Stack.Screen name="SeniorSignup" component={SeniorSignup} /> */}
+          <Stack.Screen name="SeniorSignup">
+            {props => (
+              <SeniorSignup {...props} authID={authID} setAuthID={setAuthID} />
+            )}
+          </Stack.Screen>
           <Stack.Screen name="SeniorDash" component={SeniorDash} />
-          <Stack.Screen name="JuniorSignup" component={JuniorSignup} />
-          <Stack.Screen name="JuniorDash" component={JuniorDash} />
+          <Stack.Screen name="JuniorSignup">
+            {props => (
+              <JuniorSignup {...props} authID={authID} setAuthID={setAuthID} />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="JuniorDash">
+            {props => (
+              <JuniorDash {...props} authID={authID} setAuthID={setAuthID} />
+            )}
+          </Stack.Screen>
           <Stack.Screen name="LoginPage" component={LoginPage} />
         </Stack.Navigator>
+        {/* </AuthContext.Provider> */}
       </NavigationContainer>
     </ApolloProvider>
   );
