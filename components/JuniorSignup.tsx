@@ -67,6 +67,7 @@ const JuniorSignup = ({navigation}) => {
           zipCode: numberedZip,
         },
       });
+      console.log('data', data);
       setForm(initialState);
       navigation.navigate('JuniorDash');
     } catch (error) {

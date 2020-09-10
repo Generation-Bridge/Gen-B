@@ -27,6 +27,7 @@ const JuniorFeed = () => {
   // console.log('tickets', tickets)
   return (
     <ScrollView style={styles.container}>
+      <Text style={styles.text}>CLAIM YOUR TICKETS</Text>
       {tickets}
       {/* <SeniorTicket/>
         <SeniorTicket/>
@@ -39,6 +40,11 @@ export default JuniorFeed;
 
 const styles = StyleSheet.create({
   container: {
-    width: '80%',
+    width: '100%',
+  },
+  text: {
+    marginVertical: 10,
+    fontSize: 25,
+    alignSelf: 'center',
   },
 });
