@@ -1,20 +1,18 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native'
 import { gql, useMutation } from '@apollo/client'
 
 
 const ADD_TASK = gql`
   mutation addTask(
     $id: Int!
-    $typeid: Int!
+    $typeid: Int
     $description: String
-    $deadline: String!
     ) {
     addTask(
       senior: $id
-      description: $description
-      deadline: $deadline
       typeid: $typeid
+      description: $description
       ) {
       id
     }
@@ -29,10 +27,9 @@ const NewTicketDesc = ({navigation, route}) => {
     try {
       const mutation = await addTask({
         variables: {
-          id: 25,
-          description: value,
-          deadline: new Date(),
-          typeid: route.params.typeid
+          id: 3,
+          typeid: route.params.typeid,
+          description: value
         },
       });
       navigation.navigate('SeniorDash');

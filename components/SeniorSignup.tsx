@@ -13,25 +13,26 @@ import {TextInput} from 'react-native-gesture-handler';
 interface signUpState {
   firstName: string;
   lastName: string;
+  email: string;
   phoneNumber: string;
   zipCode: string;
   password: string;
 }
 
 const ADD_SENIOR = gql`
-  mutation addHelper(
+  mutation addSenior(
     $name: String!
-    $email: String!
     $phone: String!
     $password: String!
-    $zipCode: Int
+    $zipCode: Int!
+    $email: String
   ) {
-    addHelper(
+    addSenior(
       name: $name
-      email: $email
       phone: $phone
       password: $password
       zipcode: $zipCode
+      email: $email
     ) {
       id
     }
@@ -47,6 +48,7 @@ const SeniorSignup: React.FC = ({navigation}) => {
   const initialState: signUpState = {
     firstName: '',
     lastName: '',
+    email: '',
     phoneNumber: '',
     zipCode: '',
     password: '',
@@ -61,15 +63,17 @@ const SeniorSignup: React.FC = ({navigation}) => {
 
   // handle submit when submit button is clicked
   const handleSubmit = async () => {
-    const {firstName, lastName, phoneNumber, password, zipCode} = form;
+    console.log('form', form)
+    const {firstName, lastName, phoneNumber, password, zipCode, email} = form;
     const numberedZip = Number(zipCode);
+    const name = `${firstName} ${lastName}`
     // TODO : need some sort of validation for the forms before we send to DB
     try {
       const {data} = await addSenior({
         variables: {
-          firstName,
-          lastName,
+          name,
           phone: phoneNumber,
+          email,
           password,
           zipCode: numberedZip,
         },
@@ -98,6 +102,13 @@ const SeniorSignup: React.FC = ({navigation}) => {
           placeholder="Last Name"
           onChangeText={text => setForm({...form, lastName: text})}
           value={form.lastName}
+        />
+        <Text style={styles.labels}>Email</Text>
+        <TextInput
+          style={styles.inputFields}
+          placeholder="Email"
+          onChangeText={text => setForm({...form, email: text})}
+          value={form.email}
         />
         <Text style={styles.labels}>Phone Number</Text>
         <TextInput
