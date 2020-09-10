@@ -1,43 +1,21 @@
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity } from 'react-native'
 
-interface signUpState {
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  zipCode: string;
-  password: string;
-}
-
-const SeniorSignup: React.FC = () => {
-  // inital state for the forms
-  const initialState: signUpState = {
+const JuniorSignup = ({navigation}) => {
+  const initialState = {
     firstName: '',
     lastName: '',
+    email: '',
     phoneNumber: '',
     zipCode: '',
     password: '',
   };
 
   // state for the forms
-  const [form, setForm] = useState<signUpState>(initialState);
-  // console.log('state change', form);
-
-  // handle submit when submit button is clicked
-  const handleSubmit = (): void => {};
-
+  const [form, setForm] = useState(initialState);
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.Text}>Sign Up</Text>
         <Text style={styles.labels}>First Name</Text>
         <TextInput
           style={styles.inputFields}
@@ -51,6 +29,13 @@ const SeniorSignup: React.FC = () => {
           placeholder="Last Name"
           onChangeText={text => setForm({...form, lastName: text})}
           value={form.lastName}
+        />
+        <Text style={styles.labels}>Email</Text>
+        <TextInput
+          style={styles.inputFields}
+          placeholder="name@email.com"
+          onChangeText={text => setForm({...form, email: text})}
+          value={form.email}
         />
         <Text style={styles.labels}>Phone Number</Text>
         <TextInput
@@ -76,17 +61,18 @@ const SeniorSignup: React.FC = () => {
           onChangeText={text => setForm({...form, password: text})}
           value={form.password}
         />
+
         <TouchableOpacity 
           style={styles.button}
-          onPress={() => navigation.navigate('SeniorDash')}>
+          onPress={() => navigation.navigate('JuniorDash')}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
-  );
-};
+  )
+}
 
-export default SeniorSignup;
+export default JuniorSignup
 
 const styles = StyleSheet.create({
   container: {
@@ -120,10 +106,5 @@ const styles = StyleSheet.create({
 
   buttonText: {
     fontSize: 20,
-  },
-
-  Text: {
-    fontSize: 40,
-    marginVertical: 20,
   },
 });
