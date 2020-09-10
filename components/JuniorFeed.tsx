@@ -1,38 +1,37 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import SeniorTicket from './SeniorTicket';
-import {useQuery, gql} from '@apollo/client';
+import {StyleSheet, Text, ScrollView} from 'react-native';
+import Ticket from './Ticket';
+import {useQuery, gql, useApolloClient} from '@apollo/client';
 
-const GET_TEST = gql`
+const GET_TASKS = gql`
   query {
-    helpers {
-      tasks {
-        taskType
-        taskDescription
-      }
+    tasks {
+      id
+      seniorname
+      description
+      type
     }
   }
 `;
 const JuniorFeed = () => {
-  const {loading, error, data} = useQuery(GET_TEST);
+  const {loading, error, data} = useQuery(GET_TASKS);
   if (loading) return <Text>Loading...</Text>;
   if (error) {
     console.log('error', error);
     return <Text>Error :( </Text>;
   }
-  console.log('data', data);
+  // console.log('data', data);
+
   // const tickets = data.helpers[0].map( task => <SeniorTicket task={task}/>)
-  const tickets = data.helpers[0].tasks.map(task => (
-    <SeniorTicket task={task} />
-  ));
+  const tickets = data.tasks.map(task => <Ticket task={task} key={task.id} />);
   // console.log('tickets', tickets)
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {tickets}
       {/* <SeniorTicket/>
         <SeniorTicket/>
         <SeniorTicket/> */}
-    </View>
+    </ScrollView>
   );
 };
 

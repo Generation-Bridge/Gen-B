@@ -1,34 +1,88 @@
-import React, { useState } from 'react'
-import { StyleSheet, Text, View, TouchableWithoutFeedback, TextInput, Keyboard, TouchableOpacity } from 'react-native'
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  TextInput,
+  Keyboard,
+  TouchableOpacity,
+} from 'react-native';
+import {gql, useMutation} from '@apollo/client';
+
+// TODO: change occupation to zip code when Andy modifies DB
+const ADD_HELPER = gql`
+  mutation addHelper(
+    $name: String!
+    $email: String!
+    $phone: String!
+    $password: String!
+    $occupation: String
+  ) {
+    addHelper(
+      name: $name
+      email: $email
+      phone: $phone
+      password: $password
+      occupation: $occupation
+    ) {
+      id
+    }
+  }
+`;
 
 const JuniorSignup = ({navigation}) => {
   const initialState = {
-    firstName: '',
-    lastName: '',
+    name: '',
     email: '',
     phoneNumber: '',
-    zipCode: '',
     password: '',
+    zipCode: '',
   };
 
   // state for the forms
   const [form, setForm] = useState(initialState);
+
+  // mutation hook to send form data to backend
+  const [addHelper, {data, error}] = useMutation(ADD_HELPER);
+
+  const handleSubmit = async () => {
+    console.log('form before being sent', form);
+    const {name, email, phoneNumber, password, zipCode} = form;
+    console.log('name', name);
+    console.log('email', email);
+    console.log('phone', phoneNumber);
+    console.log('password', password);
+    console.log('zipCode', zipCode);
+    // TODO : need some sort of validation for the forms before we send to DB
+    try {
+      const {data} = await addHelper({
+        variables: {
+          name,
+          email,
+          phone: phoneNumber,
+          password,
+          occupation: zipCode,
+        },
+      });
+      console.log('data from mutate', data);
+      setForm(initialState);
+      navigation.navigate('JuniorDash');
+    } catch (error) {
+      console.log('error', error);
+    }
+
+    // TODO: once id returns, need to set it to global auth state (maybe use onCompleted for useMutation?)
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.labels}>First Name</Text>
+        <Text style={styles.labels}>Name</Text>
         <TextInput
           style={styles.inputFields}
-          placeholder="First Name"
-          onChangeText={text => setForm({...form, firstName: text})}
-          value={form.firstName}
-        />
-        <Text style={styles.labels}>Last Name</Text>
-        <TextInput
-          style={styles.inputFields}
-          placeholder="Last Name"
-          onChangeText={text => setForm({...form, lastName: text})}
-          value={form.lastName}
+          placeholder="Name"
+          onChangeText={text => setForm({...form, name: text})}
+          value={form.name}
         />
         <Text style={styles.labels}>Email</Text>
         <TextInput
@@ -62,17 +116,15 @@ const JuniorSignup = ({navigation}) => {
           value={form.password}
         />
 
-        <TouchableOpacity 
-          style={styles.button}
-          onPress={() => navigation.navigate('JuniorDash')}>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </TouchableWithoutFeedback>
-  )
-}
+  );
+};
 
-export default JuniorSignup
+export default JuniorSignup;
 
 const styles = StyleSheet.create({
   container: {
