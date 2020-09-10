@@ -10,6 +10,13 @@ import {
 } from 'react-native';
 import {gql, useMutation} from '@apollo/client';
 
+interface signupState {
+  name: string;
+  email: string;
+  phoneNumber: string;
+  password: string;
+  zipCode: string;
+}
 // TODO: change occupation to zip code when Andy modifies DB
 const ADD_HELPER = gql`
   mutation addHelper(
@@ -32,7 +39,7 @@ const ADD_HELPER = gql`
 `;
 
 const JuniorSignup = ({navigation}) => {
-  const initialState = {
+  const initialState: signupState = {
     name: '',
     email: '',
     phoneNumber: '',
@@ -41,19 +48,14 @@ const JuniorSignup = ({navigation}) => {
   };
 
   // state for the forms
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState<signupState>(initialState);
 
   // mutation hook to send form data to backend
   const [addHelper, {data, error}] = useMutation(ADD_HELPER);
 
   const handleSubmit = async () => {
-    console.log('form before being sent', form);
     const {name, email, phoneNumber, password, zipCode} = form;
-    console.log('name', name);
-    console.log('email', email);
-    console.log('phone', phoneNumber);
-    console.log('password', password);
-    console.log('zipCode', zipCode);
+
     // TODO : need some sort of validation for the forms before we send to DB
     try {
       const {data} = await addHelper({
@@ -65,7 +67,6 @@ const JuniorSignup = ({navigation}) => {
           occupation: zipCode,
         },
       });
-      console.log('data from mutate', data);
       setForm(initialState);
       navigation.navigate('JuniorDash');
     } catch (error) {
