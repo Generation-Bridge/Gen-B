@@ -91,10 +91,11 @@ const RootMutationType = new GraphQLObjectType({
         const {name, phone, email, password, zipcode} = args;
         const hashedPass = await bcrypt.hash(password, 10);
         const queryText = `INSERT INTO helpers (name, phone, email, password, zipcode)
-        VALUES ($1, $2, $3, $4, $5)`;
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *`;
         return model
           .query(queryText, [name, phone, email, hashedPass, zipcode])
-          .then((data: any) => console.log(data))
+          .then((data: any) => data.rows[0])
           .catch((err: any) => console.log(err));
       },
     },
@@ -112,10 +113,11 @@ const RootMutationType = new GraphQLObjectType({
         const {name, phone, email, password, zipcode} = args;
         const hashedPass = await bcrypt.hash(password, 10);
         const queryText = `INSERT INTO seniors (name, phone, password, zipcode, email)
-        VALUES ($1, $2, $3, $4, $5)`;
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING *`;
         return model
           .query(queryText, [name, phone, hashedPass, zipcode, email])
-          .then((data: any) => console.log(data))
+          .then((data: any) => data.rows[0])
           .catch((err: any) => console.log(err));
       },
     },
@@ -131,10 +133,11 @@ const RootMutationType = new GraphQLObjectType({
       resolve: (parent: any, args: any) => {
         const {senior, typeid, description, deadline} = args;
         const queryText = `INSERT INTO tasks (senior, type, description, deadline)
-        VALUES ($1, $2, $3, $4)`;
+        VALUES ($1, $2, $3, $4)
+        RETURNING *`;
         return model
           .query(queryText, [senior, typeid, description, deadline])
-          .then((data: any) => data)
+          .then((data: any) => data.rows[0])
           .catch((err: any) => console.log(err));
       },
     },
@@ -148,10 +151,11 @@ const RootMutationType = new GraphQLObjectType({
       resolve: (parent: any, args: any) => {
         const {helperid, taskid} = args;
         const queryText = `INSERT INTO helpertask (helperid, taskid)
-        VALUES ($1, $2)`;
+        VALUES ($1, $2)
+        RETURNING *`;
         return model
           .query(queryText, [helperid, taskid])
-          .then((data: any) => data)
+          .then((data: any) => data.rows[0])
           .catch((err: any) => console.log(err));
       },
     },
