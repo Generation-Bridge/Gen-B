@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Feed from './Feed'
-import {useQuery, gql} from '@apollo/client';
-import { ScrollView } from 'react-native-gesture-handler';
 
-export default function SeniorDash({navigation}) {
+export default function SeniorDash({navigation, route}) {
+  console.log('navigation', navigation)
+  console.log('route', route)
   return (
     <View style={styles.container}>
       <TouchableOpacity 
