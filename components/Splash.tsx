@@ -10,6 +10,11 @@ const Splash = ({navigation}) => {
         onPress={() => navigation.navigate('StartingPage')}>
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('LoginPage')}>
+        <Text style={styles.buttonText}>Log In</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );

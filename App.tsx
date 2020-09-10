@@ -9,6 +9,8 @@ import SeniorSignup from './components/SeniorSignup';
 import SeniorDash from './components/SeniorDash';
 import JuniorSignup from './components/JuniorSignup';
 import JuniorDash from './components/JuniorDash';
+import LoginPage from './components/LoginPage';
+
 
 
 
@@ -17,6 +19,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+const Stack = createStackNavigator();
 
 export default function App() {
   return (
@@ -29,9 +32,10 @@ export default function App() {
           <Stack.Screen name="SeniorDash" component={SeniorDash} />
           <Stack.Screen name="JuniorSignup" component={JuniorSignup} />
           <Stack.Screen name="JuniorDash" component={JuniorDash} />
+          <Stack.Screen name="LoginPage" component={LoginPage} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>
-  );
+  )
 }
-const Stack = createStackNavigator();
+
