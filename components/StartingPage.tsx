@@ -11,7 +11,8 @@ const StartingPage = ({navigation}) => {
         onPress={() => navigation.navigate('SeniorSignup')}>
         <Text style={styles.buttonText}>Yes</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate('JuniorSignup')}>
         <Text style={styles.buttonText}>No</Text>
       </TouchableOpacity>
     </View>
