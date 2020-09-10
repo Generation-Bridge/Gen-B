@@ -2,14 +2,17 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const StartingPage = () => {
+const StartingPage = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Are you over 65 years old?</Text>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('SeniorSignup')}>
         <Text style={styles.buttonText}>Yes</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button}
+        onPress={() => navigation.navigate('JuniorSignup')}>
         <Text style={styles.buttonText}>No</Text>
       </TouchableOpacity>
     </View>
