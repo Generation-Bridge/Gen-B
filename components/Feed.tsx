@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import SeniorTicket from './SeniorTicket'
 import { useQuery, gql } from '@apollo/client';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 const GET_TEST = gql`
@@ -31,12 +32,9 @@ const Feed = () => {
   }
   // console.log('tickets', tickets)
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.contentContainer}>
         {tickets}
-        {/* <SeniorTicket/>
-        <SeniorTicket/>
-        <SeniorTicket/> */}
-      </View>
+      </ScrollView>
   )
 }
 
@@ -44,8 +42,12 @@ export default Feed
 
 const styles = StyleSheet.create({
   container: {
-    width: '81%',
+    width: '100%',
     alignSelf: 'center',
-  }
+  },
+  contentContainer: {
+    paddingVertical: 20,
+    width: '100%'
+  },
 })
 

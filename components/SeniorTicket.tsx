@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-    width: '100%',
     backgroundColor: 'lightblue',
     margin: 5,
     borderStyle: 'solid',

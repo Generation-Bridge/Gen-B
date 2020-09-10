@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import Feed from './Feed'
 import {useQuery, gql} from '@apollo/client';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function SeniorDash({navigation}) {
   return (
