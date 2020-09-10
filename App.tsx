@@ -10,6 +10,8 @@ import SeniorDash from './components/SeniorDash';
 import JuniorSignup from './components/JuniorSignup';
 import JuniorDash from './components/JuniorDash';
 import LoginPage from './components/LoginPage';
+import NewTicket from './components/NewTicket';
+
 
 
 
@@ -34,6 +36,7 @@ export default function App() {
           <Stack.Screen name="JuniorSignup" component={JuniorSignup} />
           <Stack.Screen name="JuniorDash" component={JuniorDash} />
           <Stack.Screen name="LoginPage" component={LoginPage} />
+          <Stack.Screen name="NewTicket" component={NewTicket} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApolloProvider>

@@ -6,11 +6,12 @@ import { useQuery, gql } from '@apollo/client';
 
 const GET_TEST = gql`
 query {
-  helpers {
-    tasks {
-      taskType
-      taskDescription
-    }
+  tasks {
+    id
+    type
+    description
+    deadline
+    completed
   }
 }`
 const Feed = () => {
@@ -22,7 +23,12 @@ const Feed = () => {
     }
   console.log('data', data)
   // const tickets = data.helpers[0].map( task => <SeniorTicket task={task}/>)
-  const tickets = data.helpers[0].tasks.map( task => <SeniorTicket task={task}/>)
+  let tickets;
+  try {
+    tickets = data.tasks.map( task => <SeniorTicket key={task.id} task={task}/>)
+  } catch (e) {
+    console.log('error in gql feed', e);
+  }
   // console.log('tickets', tickets)
   return (
     <View style={styles.container}>
@@ -38,7 +44,8 @@ export default Feed
 
 const styles = StyleSheet.create({
   container: {
-    width: '80%'
+    width: '81%',
+    alignSelf: 'center',
   }
 })
 

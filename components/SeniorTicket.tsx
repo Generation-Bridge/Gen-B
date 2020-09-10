@@ -2,15 +2,13 @@ import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 
 
-const SeniorTicket = (props) => {
-  console.log('props',props)
+const SeniorTicket = ({task}) => {
+  const date = task.deadline
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>Title:</Text>
-        <Text style={styles.text}>Helpers [array]</Text>
-        <Text style={styles.text}>Location</Text>
-        <Text style={styles.text}>Type {props.task.taskType}</Text>
-        <Text style={styles.text}>Description {props.task.taskDescription}</Text>
+        <Text style={styles.text}>Deadline: {task.deadline}  </Text>
+        <Text style={styles.text}>Type {task.type}</Text>
+        <Text style={styles.text}>Description {task.description}</Text>
       </View>
     )
   }
@@ -21,8 +19,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     width: '100%',
-    backgroundColor: 'dodgerblue',
+    backgroundColor: 'lightblue',
     margin: 5,
+    borderStyle: 'solid',
+    borderRadius: 10,
+    borderWidth: 5,
+    borderColor: 'black',
+    display: 'flex',
   },
   text: {
     fontSize: 25
