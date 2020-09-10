@@ -9,9 +9,17 @@ import {
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 
-const SeniorSignup = () => {
+interface signUpState {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  zipCode: string;
+  password: string;
+}
+
+const SeniorSignup: React.FC = () => {
   // inital state for the forms
-  const initialState = {
+  const initialState: signUpState = {
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -20,16 +28,16 @@ const SeniorSignup = () => {
   };
 
   // state for the forms
-  const [form, setForm] = useState(initialState);
+  const [form, setForm] = useState<signUpState>(initialState);
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
-  const handleSubmit = () => {};
+  const handleSubmit = (): void => {};
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text>Sign Up</Text>
+        <Text style={styles.Text}>Sign Up</Text>
         <Text style={styles.labels}>First Name</Text>
         <TextInput
           style={styles.inputFields}
@@ -111,5 +119,10 @@ const styles = StyleSheet.create({
 
   buttonText: {
     fontSize: 20,
+  },
+
+  Text: {
+    fontSize: 40,
+    marginVertical: 20,
   },
 });
