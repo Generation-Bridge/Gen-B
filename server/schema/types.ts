@@ -16,15 +16,12 @@ const TaskType = new GraphQLObjectType({
     id: {type: GraphQLNonNull(GraphQLInt)},
     seniorid: {type: GraphQLNonNull(GraphQLInt)},
     seniorname: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
       resolve: (task: any) => {
         const queryText = 'SELECT name FROM seniors WHERE id=$1';
         return model
           .query(queryText, [task.seniorid])
-          .then((data: any) => {
-            console.log(data.rows);
-            return data.rows[0].name;
-          })
+          .then((data: any) => data.rows[0].name)
           .catch((err: any) => console.log(err));
       },
     },
@@ -34,7 +31,7 @@ const TaskType = new GraphQLObjectType({
         const queryText = 'SELECT helperid FROM tasktypes WHERE taskid=$1';
         return model
           .query(queryText, [task.taskit])
-          .then((data: any) => data.rows[0])
+          .then((data: any) => data.rows)
           .catch((err: any) => console.log(err));
       },
     },

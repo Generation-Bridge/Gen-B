@@ -6,7 +6,6 @@ const {
   GraphQLList,
   GraphQLInt,
   GraphQLNonNull,
-  GraphQLBoolean,
 } = require('graphql');
 const {TaskType, HelperType, SeniorType} = require('./types');
 const model = require('./model');
