@@ -13,6 +13,8 @@ const GET_TASKS = gql`
     }
   }
 `;
+
+
 const JuniorFeed = () => {
   const {loading, error, data} = useQuery(GET_TASKS);
   if (loading) return <Text>Loading...</Text>;
