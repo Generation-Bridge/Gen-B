@@ -2,14 +2,15 @@ import React from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 
 
-const SeniorTicket = () => {
+const SeniorTicket = (props) => {
+  console.log('props',props)
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>Title</Text>
+        <Text style={styles.text}>Title:</Text>
         <Text style={styles.text}>Helpers [array]</Text>
         <Text style={styles.text}>Location</Text>
-        <Text style={styles.text}>Type</Text>
-        <Text style={styles.text}>Description</Text>
+        <Text style={styles.text}>Type {props.task.taskType}</Text>
+        <Text style={styles.text}>Description {props.task.taskDescription}</Text>
       </View>
     )
   }

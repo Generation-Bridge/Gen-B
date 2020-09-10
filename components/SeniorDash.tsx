@@ -3,21 +3,9 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import Feed from './Feed'
 import { useQuery, gql } from '@apollo/client';
 
-// const GET_TEST = gql`
-//   query helpers {
-//     tasks {
-//       taskType
-//       taskDescription
-//     }
-//   }`
 
 
 export default function SeniorDash() {
-  // const { loading, error, data } = useQuery(GET_TEST);
-  // if (loading) return <Text>Loading...</Text>;
-  // if (error) return <Text>Error :( </Text>;
-
-  // console.log('data', data)
   return (
     <View style={styles.container}>
       <TouchableOpacity 
