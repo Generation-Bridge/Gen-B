@@ -2,12 +2,16 @@ import React from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 
 const Ticket = props => {
-  // console.log('props', props);
+  // destucturing the props
+  const {task} = props;
+  const {seniorname, type, description, id} = task;
+  // handle claim submit button
+  const handleClaim = () => {};
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Who: {props.task.seniorname}</Text>
-      <Text style={styles.text}>Type: {props.task.type}</Text>
-      <Text style={styles.text}>Description: {props.task.description}</Text>
+      <Text style={styles.text}>Who: {seniorname}</Text>
+      <Text style={styles.text}>Type: {type}</Text>
+      <Text style={styles.text}>Description: {description}</Text>
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Claim</Text>
       </TouchableOpacity>
