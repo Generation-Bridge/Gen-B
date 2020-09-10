@@ -36,20 +36,23 @@ const verifySenior = async (req: any, res: any, next: any) => {
     (err: any, isMatch: boolean) => {
       if (err) return next(err);
       if (isMatch) {
+        res.locals.isVerified = true;
         res.locals.id = parsedResult.id;
-        return next();
+      } else {
+        res.locals.isVerified = false;
       }
+      return next();
     },
   );
 };
 
 //Router
 router.post('/helper', verifyHelper, (req: any, res: any) => {
-  res.status(200).json(res.locals.id);
+  res.status(200).json(res.locals);
 });
 
 router.post('/senior', verifySenior, (req: any, res: any) => {
-  res.status(200).json(res.locals.id);
+  res.status(200).json(res.locals);
 });
 
 module.exports = router;

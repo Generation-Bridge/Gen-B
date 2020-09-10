@@ -61,7 +61,7 @@ const HelperType = new GraphQLObjectType({
     phone: {type: GraphQLNonNull(GraphQLString)},
     email: {type: GraphQLNonNull(GraphQLString)},
     password: {type: GraphQLNonNull(GraphQLString)},
-    occupation: {type: GraphQLString},
+    zipcode: {type: GraphQLInt},
     tasks: {
       type: GraphQLList(TaskType),
       resolve: (helper: any) => {
@@ -72,7 +72,6 @@ const HelperType = new GraphQLObjectType({
         return model
           .query(queryText, [helper.id])
           .then((data: any) => {
-            console.log(data.rows);
             return data.rows;
           })
           .catch((err: any) => console.log(err));
