@@ -17,7 +17,7 @@ interface signUpState {
   password: string;
 }
 
-const SeniorSignup: React.FC = () => {
+const SeniorSignup: React.FC = ({navigation}) => {
   // inital state for the forms
   const initialState: signUpState = {
     firstName: '',
@@ -76,7 +76,7 @@ const SeniorSignup: React.FC = () => {
           onChangeText={text => setForm({...form, password: text})}
           value={form.password}
         />
-        <TouchableOpacity 
+        <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('SeniorDash')}>
           <Text style={styles.buttonText}>Submit</Text>
