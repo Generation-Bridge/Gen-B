@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Picker } from 'react-native'
 
-const NewTicket = (navigation) => {
-  const [selectedValue, setSelectedValue] = useState("");
+const NewTicket = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.choiceText}>What do you need help with?</Text>
@@ -14,23 +13,16 @@ const NewTicket = (navigation) => {
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.choices}
+        onPress={() => navigation.navigate('NewTicketDesc', {type: 'Connection'})}
         >
         <Text style={styles.choiceText}>Connection</Text>
       </TouchableOpacity>
       <TouchableOpacity 
         style={styles.choices}
+        onPress={() => navigation.navigate('NewTicketDesc', {type: 'Errands'})}
         >
         <Text style={styles.choiceText}>Errands</Text>
       </TouchableOpacity>
-      <Picker
-        selectedValue={selectedValue}
-        style={{ height: 150, width: 200 }}
-        onValueChange={(itemValue, itemIndex) => setSelectedValue(itemValue)}
-      >
-        <Picker.Item label="Food / Groceries" value="food" itemStyle={styles.choiceText}/>
-        <Picker.Item label="Errands" value="errands" />
-        <Picker.Item label="Connection" value="connection" />
-      </Picker>
     </View>
   )
 }
