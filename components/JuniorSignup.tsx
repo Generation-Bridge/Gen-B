@@ -38,7 +38,8 @@ const ADD_HELPER = gql`
   }
 `;
 
-const JuniorSignup = ({navigation}) => {
+const JuniorSignup = ({navigation, authID, setAuthID}) => {
+  // const {setAuthID} = useContext(AuthContext);
   const initialState: signupState = {
     name: '',
     email: '',
@@ -46,6 +47,7 @@ const JuniorSignup = ({navigation}) => {
     password: '',
     zipCode: '',
   };
+  // console.log('authID in signup', authID);
 
   // state for the forms
   const [form, setForm] = useState<signupState>(initialState);
@@ -67,6 +69,9 @@ const JuniorSignup = ({navigation}) => {
           zipCode: numberedZip,
         },
       });
+      console.log('data', data.addHelper.id);
+      const uID = Number(data.addHelper.id);
+      setAuthID(uID);
       setForm(initialState);
       navigation.navigate('JuniorDash');
     } catch (error) {

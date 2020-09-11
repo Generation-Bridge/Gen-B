@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useQuery, gql, useMutation} from '@apollo/client';
 import {
   StyleSheet,
   Text,
@@ -12,27 +13,77 @@ import {TextInput} from 'react-native-gesture-handler';
 interface signUpState {
   firstName: string;
   lastName: string;
+  email: string;
   phoneNumber: string;
   zipCode: string;
   password: string;
 }
 
+const ADD_SENIOR = gql`
+  mutation addSenior(
+    $name: String!
+    $phone: String!
+    $password: String!
+    $zipCode: Int!
+    $email: String
+  ) {
+    addSenior(
+      name: $name
+      phone: $phone
+      password: $password
+      zipcode: $zipCode
+      email: $email
+    ) {
+      id
+    }
+  }
+`;
+
+
 const SeniorSignup: React.FC = ({navigation}) => {
   // inital state for the forms
+  const [addSenior, {data, error}] = useMutation(ADD_SENIOR);
+
+
   const initialState: signUpState = {
     firstName: '',
     lastName: '',
+    email: '',
     phoneNumber: '',
     zipCode: '',
     password: '',
   };
+
+  // if (loading) return 'Loading...';
+  // if (error) return `Error! ${error.message}`;
 
   // state for the forms
   const [form, setForm] = useState<signUpState>(initialState);
   // console.log('state change', form);
 
   // handle submit when submit button is clicked
-  const handleSubmit = (): void => {};
+  const handleSubmit = async () => {
+    console.log('form', form)
+    const {firstName, lastName, phoneNumber, password, zipCode, email} = form;
+    const numberedZip = Number(zipCode);
+    const name = `${firstName} ${lastName}`
+    // TODO : need some sort of validation for the forms before we send to DB
+    try {
+      const {data} = await addSenior({
+        variables: {
+          name,
+          phone: phoneNumber,
+          email,
+          password,
+          zipCode: numberedZip,
+        },
+      });
+      setForm(initialState);
+      navigation.navigate('SeniorDash');
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -51,6 +102,13 @@ const SeniorSignup: React.FC = ({navigation}) => {
           placeholder="Last Name"
           onChangeText={text => setForm({...form, lastName: text})}
           value={form.lastName}
+        />
+        <Text style={styles.labels}>Email</Text>
+        <TextInput
+          style={styles.inputFields}
+          placeholder="Email"
+          onChangeText={text => setForm({...form, email: text})}
+          value={form.email}
         />
         <Text style={styles.labels}>Phone Number</Text>
         <TextInput
@@ -78,7 +136,7 @@ const SeniorSignup: React.FC = ({navigation}) => {
         />
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('SeniorDash')}>
+          onPress={handleSubmit}>
           <Text style={styles.buttonText}>Submit</Text>
         </TouchableOpacity>
       </View>
