@@ -12,6 +12,7 @@ import JuniorDash from './components/JuniorDash';
 import LoginPage from './components/LoginPage';
 import NewTicket from './components/NewTicket';
 import NewTicketDesc from './components/NewTicketDesc';
+import Map from './components/MapView';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3000/graphql',
@@ -50,6 +51,7 @@ export default function App() {
           <Stack.Screen name="LoginPage" component={LoginPage} />
           <Stack.Screen name="NewTicket" component={NewTicket} />
           <Stack.Screen name="NewTicketDesc" component={NewTicketDesc} />
+          <Stack.Screen name="Map" component={Map} />
         </Stack.Navigator>
         {/* </AuthContext.Provider> */}
       </NavigationContainer>

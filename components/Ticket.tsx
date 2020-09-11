@@ -15,7 +15,7 @@ const Ticket = props => {
   const [addHelperToTask, {data, error}] = useMutation(ADD_HELPER_TO_TASK);
 
   // destucturing the props
-  const {task, authID} = props;
+  const {task, authID, navigation} = props;
   const {seniorname, type, description, id} = task;
   // handle claim submit button
   const handleClaim = async () => {
@@ -35,6 +35,7 @@ const Ticket = props => {
       console.log('error', error);
     }
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Who: {seniorname}</Text>
@@ -43,6 +44,11 @@ const Ticket = props => {
 
       <TouchableOpacity style={styles.button} onPress={handleClaim}>
         <Text style={styles.buttonText}>Claim</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Map')}>
+        <Text style={styles.buttonText}>See Location</Text>
       </TouchableOpacity>
     </View>
   );

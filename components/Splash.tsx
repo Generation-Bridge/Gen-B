@@ -15,6 +15,11 @@ const Splash = ({navigation}) => {
         onPress={() => navigation.navigate('LoginPage')}>
         <Text style={styles.buttonText}>Log In</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Map')}>
+        <Text style={styles.buttonText}>See Location</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </View>
   );
