@@ -23,3 +23,21 @@ Generation Bridge (Gen-B) is a social welfare mobile application built with a mo
 Development of Generation Bridge is open on GitHub, and the team will appreciate any feedback, contributions, bugfixes, and improvements.
 
 We want to make contributing to this project as easy as possible.
+
+[Contribution Guidelines](CONTRIBUTING.md)
+
+## Try It Out!
+
+1. Fork this repo and install dependencies.
+
+`npm install`
+
+2. Follow this [Expo Guide](https://docs.expo.io/guides/) to connect with your phone using expo client or run the iOS/Android simuator.
+
+3) Run the app.
+
+`npm start`
+
+### License
+
+Generation Bridge is [MIT Licensed](LICENSE)
